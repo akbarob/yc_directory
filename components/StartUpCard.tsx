@@ -4,16 +4,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { Button } from './ui/button';
+import { Author, Startup } from '@/sanity/types';
+export type StartUpTypeCard = Omit<Startup, 'author'> & { author?: Author };
 
-type Props = { post: StartUpCardType };
-
-const StartUpCard = ({ post }: Props) => {
+const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
     const {
         _id,
         image,
         _createdAt,
         views,
-        author: { name, _id: author_id },
+        author,
         title,
         description,
         category,
@@ -32,8 +32,8 @@ const StartUpCard = ({ post }: Props) => {
             </div>{' '}
             <div className='flex-between mt-5 gap-5'>
                 <div className='flex-1 '>
-                    <Link href={`/user/${author_id}`} className=''>
-                        {name}
+                    <Link href={`/user/${author?.id}`} className=''>
+                        {author?.name}
                     </Link>
                     <Link href={`/startup/${_id}`}>
                         <h3 className='text-26-semibold line-clamp-1'>
@@ -41,22 +41,26 @@ const StartUpCard = ({ post }: Props) => {
                         </h3>
                     </Link>{' '}
                 </div>
-                <Link href={`/user/${author_id}`}>
+                <Link href={`/user/${author?._id}`}>
                     <Image
                         src={image}
                         alt='placeholder avatar'
                         width={48}
                         height={48}
-                        className='rounded-full'
+                        sizes='100'
+                        className='rounded-full aspect-square  object-cover object-center'
                     />
                 </Link>
             </div>
             <Link href={`/startup/${_id}`}>
                 <p className='startup-card_desc'>{description}</p>
-                <img
+                <Image
+                    width={100}
+                    height={100}
                     src={image}
-                    className='startup-car_img'
-                    alt='startup-imh'
+                    sizes='100'
+                    className='startup-card_img'
+                    alt='startup-img'
                 />
             </Link>{' '}
             <div className='flex-between gap-3 mt-5'>
