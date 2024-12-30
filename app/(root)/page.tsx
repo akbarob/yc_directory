@@ -1,16 +1,24 @@
 import StartUpCard, { StartUpTypeCard } from '@/components/StartUpCard';
 import SearchForm from '../../components/SearchForm';
 import { STARTUPS_QUERY } from '@/sanity/lib/query';
-import { client } from '@/sanity/lib/client';
+import { sanityFetch } from '@/sanity/lib/live';
 interface HomeProps {
     searchParams?: {
         query?: string;
     };
 }
 export default async function Home({ searchParams }: HomeProps) {
-    const query = (await searchParams)?.query;
-    const posts = await client.fetch(STARTUPS_QUERY);
-    console.log(posts);
+    // const query = await searchParams?.query;
+    // No need to await searchParams.query, you can directly check if it's defined
+    const query = searchParams?.query;
+    const params = { search: query ? `${query}*` : null };
+    // const posts = await client.fetch(STARTUPS_QUERY);
+
+    const { data: posts } = await sanityFetch({
+        query: STARTUPS_QUERY,
+        params,
+    });
+
     return (
         <>
             <section className='pink_container'>

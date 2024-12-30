@@ -9,7 +9,6 @@ export interface NavbarProps {
 
 export default async function Navbar({}: NavbarProps) {
     const session = await auth();
-    console.log('session', session);
 
     // Server action for login
     const handleLogin = async () => {
