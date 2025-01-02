@@ -23,10 +23,17 @@ export const STARTUPS_QUERY = defineQuery(`*[
 export const STARTUPBYID =
     defineQuery(`*[_type == "startup" && _id == $id ]| order(_createdAt desc) {
     _id,
-    author->{_id,name,image,bio},
+    author->{_id,name,image,bio,username},
     views,
     title,
     description,
+    pitch,
     category,
     _createdAt,
     image}`);
+
+export const STARTUPVIEWSPREVIEW =
+    defineQuery(`*[_type == "startup" && _id == $id ]| order(_createdAt desc) {
+_id,
+views,
+}`);
