@@ -12,7 +12,7 @@ export const exprimental_ppr = true;
 
 const md = markdownit();
 const page = async ({ params }: { params: { id: string } }) => {
-    const { id } = params;
+    const { id } = await params;
 
     const [data] = await client.fetch(STARTUPBYID, { id });
     console.log(data, id);
