@@ -27,8 +27,8 @@ export default async function Home({ searchParams }: HomeProps) {
                     <span className='text-indigo-700'>Akbar Badmus</span>
                 </h1>
                 <p className='sub-heading !max-w-3xl'>
-                    Sumit ideas, vote on pitches and get noticed in virtual
-                    competitions
+                    Sumbit ideas, vote on pitches and get noticed in virtual
+                    competitions.
                 </p>
                 <SearchForm query={query} />
             </section>
