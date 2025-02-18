@@ -1,8 +1,6 @@
 import React from 'react';
 
-type Props = {};
-
-const Ping = (props: Props) => {
+const Ping = () => {
     return (
         <div className='relative'>
             <div className='-left-4 top-1 absolute'>

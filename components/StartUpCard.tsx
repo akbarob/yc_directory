@@ -58,7 +58,7 @@ const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
                 <Image
                     width={100}
                     height={100}
-                    src={image}
+                    src={image || ''}
                     sizes='100'
                     className='startup-card_img'
                     alt='startup-img'
@@ -78,12 +78,14 @@ const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
 
 export default StartUpCard;
 
-export const StartUpcardSkeleton = () => {
-    <>
-        {[1, 2, 3, 4, 5].map((_, index: number) => (
-            <li key={index} className=' '>
-                <Skeleton className='startup-card_skeleton' />
-            </li>
-        ))}
-    </>;
-};
+export function StartUpcardSkeleton(): JSX.Element {
+    return (
+        <div>
+            {[1, 2, 3, 4, 5].map((_, index: number) => (
+                <li key={index} className=' '>
+                    <Skeleton className='startup-card_skeleton' />
+                </li>
+            ))}
+        </div>
+    );
+}
