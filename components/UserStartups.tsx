@@ -6,11 +6,9 @@ import StartUpCard, { StartUpTypeCard } from './StartUpCard';
 type Props = { id: string };
 
 const UserStartups = async ({ id }: Props) => {
-    console.log('id startup page', id);
     const startups = await client.fetch(STARTUPS_BY_AUTHROR_QUERY, {
         id,
     });
-    console.log('startups', startups);
     return (
         <>
             {startups?.length > 0 ? (

@@ -15,8 +15,7 @@ type Props = {
 };
 
 const page = async ({ params }: Props) => {
-    console.log('user params', params);
-    const id = await params.id;
+    const { id } = await params;
 
     const session = await auth();
     const user = await client.fetch(AUTHOR_BY_ID, { id });
@@ -47,7 +46,7 @@ const page = async ({ params }: Props) => {
                 </div>{' '}
                 <div className='flex-1 flex flex-col gap-5 xl:-mt-5'>
                     <p className='text-30-bold'>
-                        {session.id === id ? 'Your' : 'All'} startups
+                        {session?.id === id ? 'Your' : 'All'} startups
                     </p>
 
                     <ul className='card_grid-sm'>

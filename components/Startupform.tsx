@@ -15,6 +15,7 @@ const Startupform = () => {
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [pitch, setPitch] = useState('');
     const { toast } = useToast();
+
     const router = useRouter();
 
     const handleFormSubmit = async (prevState: any, formData: FormData) => {
@@ -38,10 +39,10 @@ const Startupform = () => {
             await formSchema.parseAsync(formValues);
 
             const result = await createPitch(prevState, formData, pitch);
-            console.log('akbar', formValues);
 
             if (result.status == 'SUCCESS') {
                 toast({
+                    variant: 'success',
                     title: 'Success',
                     description:
                         'Your startup pitch has been created successfully',
@@ -54,7 +55,6 @@ const Startupform = () => {
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldErorrs = error.flatten().fieldErrors;
-                console.log(error, fieldErorrs);
 
                 setErrors(fieldErorrs as unknown as Record<string, string>);
 
@@ -89,7 +89,7 @@ const Startupform = () => {
         error: '',
         status: 'INITIAL',
     });
-    console.log('state', state);
+
     return (
         <form action={dispatch} className='startup-form'>
             <div className='flex flex-col'>

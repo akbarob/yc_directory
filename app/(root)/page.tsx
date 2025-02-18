@@ -20,7 +20,6 @@ export default async function Home({ searchParams }: HomeProps) {
         params,
     });
     const session = await auth();
-    console.log('session in page ts', session);
 
     return (
         <>
@@ -38,7 +37,9 @@ export default async function Home({ searchParams }: HomeProps) {
             </section>
             <section className='section_container'>
                 <p className='text-30-semibold'>
-                    {query ? `Search result for *${query}*` : 'All startups'}
+                    {query
+                        ? `${posts?.length} Search result for *${query}*`
+                        : 'All startups'}
                 </p>
 
                 <ul className='mt-7 card_grid'>
