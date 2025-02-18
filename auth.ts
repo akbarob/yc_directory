@@ -1,64 +1,11 @@
-import NextAuth from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import { client } from './sanity/lib/client';
 import { AUTHOR_BY_GITHUBID } from './sanity/lib/query';
 import { writeclient } from './sanity/lib/write-client';
-
+import NextAuth from 'next-auth';
 export const { handlers, signIn, signOut, auth } = NextAuth({
     providers: [GitHub],
-    // callbacks: {
-    //     async signIn({
-    //         user: { name, email, image },
-    //         account,
-    //         profile: { id, bio, login },
-    //     }) {
-    //         // Fetch existing user by GitHub ID
-    //         const existingUser = await client.fetch(AUTHOR_BY_GITHUBID, {
-    //             id: id,
-    //         });
-    //         console.log('existingUser', existingUser);
 
-    //         // Check if user exists, if not, create the new user
-    //         if (!existingUser) {
-    //             await writeclient.create({
-    //                 _type: 'author',
-    //                 id,
-    //                 name,
-    //                 email,
-    //                 username: login,
-    //                 image,
-    //                 bio,
-    //             });
-    //         }
-
-    //         // Return true to allow the sign-in process to continue
-    //         return true;
-    //     },
-
-    //     // JWT callback to modify the token object
-    //     async jwt({ token, account, profile }) {
-    //         // Check if account and profile exist before making the query
-    //         if (profile && account) {
-    //             // Fetch the user from your database (Sanity)
-    //             const user = await client.fetch(AUTHOR_BY_GITHUBID, {
-    //                 id: profile?.id,
-    //             });
-
-    //             // If the user exists, add the user's ID to the token
-    //             if (user) {
-    //                 token.id = user?._id; // Add user ID to the token
-    //             }
-    //         }
-
-    //         // Return the modified token
-    //         return token;
-    //     },
-
-    //     async session({ session, token }) {
-    //         Object.assign(session, { id: token.id });
-    //         return session;
-    //     },
-    // },
     callbacks: {
         async signIn({ user, account, profile }) {
             try {
@@ -70,7 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 const existingUser = await client
                     .withConfig({ useCdn: false })
                     .fetch(AUTHOR_BY_GITHUBID, {
-                        id: profile.id,
+                        id: profile?.id,
                     });
 
                 if (!existingUser) {

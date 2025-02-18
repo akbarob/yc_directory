@@ -9,14 +9,11 @@ import React, { Suspense } from 'react';
 
 export const experimental_ppr = true;
 type Props = {
-    params: {
-        id: string;
-    };
+    params: Promise<{ id: string }>;
 };
 
 const page = async ({ params }: Props) => {
-    const { id } = await params;
-
+    const id = (await params)?.id;
     const session = await auth();
     const user = await client.fetch(AUTHOR_BY_ID, { id });
     if (!user) return notFound();

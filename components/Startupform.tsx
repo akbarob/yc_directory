@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React, { useActionState, useState } from 'react';
 import { Input } from './ui/input';
@@ -89,7 +90,7 @@ const Startupform = () => {
         error: '',
         status: 'INITIAL',
     });
-
+    console.log(state);
     return (
         <form action={dispatch} className='startup-form'>
             <div className='flex flex-col'>

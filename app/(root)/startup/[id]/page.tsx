@@ -13,11 +13,12 @@ import markdownit from 'markdown-it';
 import { Skeleton } from '@/components/ui/skeleton';
 import View from '@/components/view';
 import StartUpCard, { StartUpTypeCard } from '@/components/StartUpCard';
-export const exprimental_ppr = true;
+
+export const experimental_ppr = true;
 
 const md = markdownit();
-const page = async ({ params }: { params: { id: string } }) => {
-    const { id } = await params;
+const page = async ({ params }: { params: Promise<{ id: string }> }) => {
+    const id = (await params)?.id;
 
     const [data, { select: editorStartups }] = await Promise.all([
         client.fetch(STARTUPBYID, { id }),
@@ -29,7 +30,7 @@ const page = async ({ params }: { params: { id: string } }) => {
 
     if (!data) return notFound();
 
-    const parsedContent = md.render(data?.pitch || '');
+    const parsedContent = md?.render(data?.pitch || '');
 
     // const { select: editorStartups } = await client.fetch(
     //     PLAYLIST_BY_SLUG_QUERY,
