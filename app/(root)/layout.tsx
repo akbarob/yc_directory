@@ -1,6 +1,6 @@
 import { SanityLive } from '@/sanity/lib/live';
 import Navbar from '../../components/Navbar';
-
+import { Toaster } from '@/components/ui/toaster';
 export default function Layout({
     children,
 }: {
@@ -8,6 +8,7 @@ export default function Layout({
 }) {
     return (
         <main className='font-work-sans'>
+            <Toaster />
             <Navbar />
             <SanityLive />
             {children}

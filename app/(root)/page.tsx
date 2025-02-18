@@ -2,6 +2,7 @@ import StartUpCard, { StartUpTypeCard } from '@/components/StartUpCard';
 import SearchForm from '../../components/SearchForm';
 import { STARTUPS_QUERY } from '@/sanity/lib/query';
 import { sanityFetch } from '@/sanity/lib/live';
+import { auth } from '@/auth';
 interface HomeProps {
     searchParams?: {
         query?: string;
@@ -10,14 +11,16 @@ interface HomeProps {
 export default async function Home({ searchParams }: HomeProps) {
     // const query = await searchParams?.query;
     // No need to await searchParams.query, you can directly check if it's defined
-    const query = searchParams?.query;
-    const params = { search: query ? `${query}*` : null };
+    const query = await searchParams?.query;
+    const params = await { search: query ? `${query}*` : null };
     // const posts = await client.fetch(STARTUPS_QUERY);
 
     const { data: posts } = await sanityFetch({
         query: STARTUPS_QUERY,
         params,
     });
+    const session = await auth();
+    console.log('session in page ts', session);
 
     return (
         <>

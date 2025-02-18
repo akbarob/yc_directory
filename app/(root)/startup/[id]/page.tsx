@@ -15,7 +15,6 @@ const page = async ({ params }: { params: { id: string } }) => {
     const { id } = await params;
 
     const [data] = await client.fetch(STARTUPBYID, { id });
-    console.log(data, id);
 
     if (!data) return notFound();
 

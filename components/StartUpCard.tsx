@@ -5,6 +5,7 @@ import Link from 'next/link';
 import React from 'react';
 import { Button } from './ui/button';
 import { Author, Startup } from '@/sanity/types';
+import { Skeleton } from './ui/skeleton';
 export type StartUpTypeCard = Omit<Startup, 'author'> & { author?: Author };
 
 const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
@@ -24,7 +25,7 @@ const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
             <div className='flex-between'>
                 {' '}
                 <p>{formatDate(_createdAt)}</p>
-                <div className='flex'>
+                <div className='flex gap-2'>
                     {' '}
                     <EyeIcon className='size-6 text-primary' />
                     <span className='text-19=6-medium'>{views}</span>
@@ -32,7 +33,7 @@ const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
             </div>{' '}
             <div className='flex-between mt-5 gap-5'>
                 <div className='flex-1 '>
-                    <Link href={`/user/${author?.id}`} className=''>
+                    <Link href={`/user/${author?._id}`} className=''>
                         {author?.name}
                     </Link>
                     <Link href={`/startup/${_id}`}>
@@ -76,3 +77,13 @@ const StartUpCard = ({ post }: { post: StartUpTypeCard }) => {
 };
 
 export default StartUpCard;
+
+export const StartUpcardSkeleton = () => {
+    <>
+        {[1, 2, 3, 4, 5].map((_, index: number) => (
+            <li key={index} className=' '>
+                <Skeleton className='startup-card_skeleton' />
+            </li>
+        ))}
+    </>;
+};

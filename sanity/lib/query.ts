@@ -37,3 +37,18 @@ export const STARTUPVIEWSPREVIEW =
 _id,
 views,
 }`);
+
+export const AUTHOR_BY_GITHUBID =
+    defineQuery(`*[_type == "author" && id == $id][0] {
+  _id,id,name,image,bio,username,email
+}`);
+
+export const AUTHOR_BY_ID = defineQuery(`*[_type == "author" && _id == $id][0] {
+  _id,id,name,image,bio,username,email
+}`);
+
+export const STARTUPS_BY_AUTHROR_QUERY =
+    defineQuery(`*[_type == "startup" && author._ref == $id]| order(_createdAt desc){
+  _id,id,slug, _createdAt,views,
+  title, author->{_id,name,image,bio,username},  description,name,image,bio,username,email
+}`);
