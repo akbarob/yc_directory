@@ -20,7 +20,7 @@ const md = markdownit();
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
     const id = (await params)?.id;
 
-    const [data, { select: editorStartups }] = await Promise.all([
+    const [[data], { select: editorStartups }] = await Promise.all([
         client.fetch(STARTUPBYID, { id }),
         await client.fetch(PLAYLIST_BY_SLUG_QUERY, {
             slug: 'editor-picks',
@@ -30,55 +30,48 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
 
     if (!data) return notFound();
 
-    const parsedContent = md?.render(data?.pitch || '');
+    const parsedContent = md.render(data.pitch || '');
 
-    // const { select: editorStartups } = await client.fetch(
-    //     PLAYLIST_BY_SLUG_QUERY,
-    //     {
-    //         slug: 'editor-picks',
-    //     }
-    // );
     return (
         <div>
             <section className='pink_container !min-h-[230px]'>
-                <p className='tag'>{formatDate(data?._createdAt)}</p>{' '}
-                <h1 className='heading'>{data?.title}</h1>
-                <p className='sub-heading !max-w-3xl'>{data?.description}</p>
+                <p className='tag'>{formatDate(data._createdAt)}</p>{' '}
+                <h1 className='heading'>{data.title}</h1>
+                <p className='sub-heading !max-w-3xl'>{data.description}</p>
             </section>{' '}
             <section className='section_container'>
                 <Image
-                    width={100}
-                    height={100}
-                    src={data?.image}
-                    alt='thumbnail'
-                    sizes='100'
+                    width={1200}
+                    height={675}
+                    src={data.image || ''}
+                    alt={`${data.title} thumbnail`}
+                    sizes='(max-width: 1200px) 100vw, 1200px'
                     className='w-full rounded-xl h-auto'
+                    priority
                 />
 
                 <div className='space-y-5 mt-10 max-w-4xl mx-auto'></div>
                 <div className='flex-between gap-5 mt-10 max-w-4xl mx-auto'>
                     <Link
-                        href={`user/${data?.author?.id}`}
+                        href={`user/${data.author.id}`}
                         className='flex gap-2 items-center mb-3'>
                         <Image
                             width={64}
                             height={64}
-                            src={data?.author?.image}
+                            src={data.author.image}
                             alt='avatar'
                             sizes='100'
                             className='rounded-full drop-shadow-lg '
                         />
                         <div>
-                            <p className='text-20-medium'>
-                                {data?.author?.name}
-                            </p>
+                            <p className='text-20-medium'>{data.author.name}</p>
                             <p className='text-16-medium !text-black-300'>
                                 {' '}
-                                @{data?.author?.username}
+                                @{data.author.username}
                             </p>
                         </div>
                     </Link>
-                    <p className='category-tag'> {data?.category}</p>
+                    <p className='category-tag'> {data.category}</p>
                 </div>
                 <h3 className='text-30-bold'>Pitch details</h3>
                 {parsedContent ? (
@@ -95,7 +88,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             </section>
             {editorStartups?.length > 0 && (
                 <div className='max-w-4xl mx-auto'>
-                    <p className='text-30-semibold'>Edithor Picks</p>
+                    <p className='text-30-semibold'>Editor Picks</p>
 
                     <ul className='mt-7 crad_grid-sm'>
                         {editorStartups?.map(
@@ -108,7 +101,7 @@ const page = async ({ params }: { params: Promise<{ id: string }> }) => {
             )}
             <section className=''>
                 <Suspense fallback={<Skeleton className='view_sekelton' />}>
-                    <View id={data?._id} />
+                    <View id={data._id} />
                 </Suspense>
             </section>
         </div>
