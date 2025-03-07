@@ -1,6 +1,7 @@
 import { SanityLive } from '@/sanity/lib/live';
 import Navbar from '../../components/Navbar';
 import { Toaster } from '@/components/ui/toaster';
+import { Analytics } from '@vercel/analytics/react';
 export default function Layout({
     children,
 }: {
@@ -12,6 +13,7 @@ export default function Layout({
             <Navbar />
             <SanityLive />
             {children}
+            <Analytics />
         </main>
     );
 }
